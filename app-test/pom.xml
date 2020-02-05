@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.orgecc.koin</groupId>
+        <artifactId>koin-example-root</artifactId>
+        <version>default-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <artifactId>koin-test</artifactId>
+
+    <build>
+        <plugins>
+            <plugin> <!-- See https://stackoverflow.com/questions/36970384/surefire-is-not-picking-up-junit-5-tests -->
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <forkCount>1C</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <workingDirectory>/tmp/stht-surefire-fork-dir-${surefire.forkNumber}</workingDirectory>
+                    <argLine>-Xmx500m</argLine>
+                    <includes>
+                        <include>%regex[.*(Tests|IT).class]</include>
+                    </includes>
+                    <environmentVariables>
+                        <DB_HOST>localhost:5432</DB_HOST>
+                        <DB_PW>123</DB_PW>
+                        <DB_ADMIN_PW>123admin</DB_ADMIN_PW>
+                        <flyway.delete-all>true</flyway.delete-all>
+                        <LOGBACK_JSON>true</LOGBACK_JSON>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.koin</groupId>
+            <artifactId>koin-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.koin</groupId>
+            <artifactId>koin-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.kotlintest</groupId>
+            <artifactId>kotlintest-runner-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.kotlintest</groupId>
+            <artifactId>kotlintest-extensions-koin</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
